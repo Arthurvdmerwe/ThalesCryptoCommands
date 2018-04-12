@@ -1,0 +1,5 @@
+C:\Development\TFS_Development\SwitchLink.Switch\SwitchLink.Utils\bin\Debug\SwitchLink.Utils.dll
+C:\Development\TFS_Development\SwitchLink.Switch\SwitchLink.Utils\bin\Debug\SwitchLink.Utils.pdb
+C:\Development\TFS_Development\SwitchLink.Switch\SwitchLink.Utils\obj\Debug\SwitchLink.Utils.csprojResolveAssemblyReference.cache
+C:\Development\TFS_Development\SwitchLink.Switch\SwitchLink.Utils\obj\Debug\SwitchLink.Utils.dll
+C:\Development\TFS_Development\SwitchLink.Switch\SwitchLink.Utils\obj\Debug\SwitchLink.Utils.pdb

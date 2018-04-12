@@ -1,0 +1,4431 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SwitchLink.Protocols.ISO8583</name>
+    </assembly>
+    <members>
+        <member name="T:SwitchLink.Protocols.ISO8583.AdditionalAmount">
+            <summary>
+              This class represents an ISO8583 Additional Amount
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AdditionalAmount.#ctor">
+            <summary>
+              Creates a new AdditionalAmount with null values
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AdditionalAmount.#ctor(System.String)">
+            <summary>
+              Constructs an AdditionalAmount object from a string
+            </summary>
+            <param name = "value"></param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.AccountType">
+            <summary>
+              Gets or sets the Account Type
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.AmountType">
+            <summary>
+              Gets or sets the Amount Type
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.CurrencyCode">
+            <summary>
+              Gets or sets the Currency Code
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.Sign">
+            <summary>
+              Gets or sets the Sign of the amount. C for credit/positive, D for debit/negative
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.Amount">
+            <summary>
+              Gets or sets the amount
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AdditionalAmount.Value">
+            <summary>
+              Gets or sets the value of the amount as a long
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AdditionalAmount.ToString">
+            <summary>
+              Gets a string representation of the additional amount
+            </summary>
+            <returns>A string representation of the additional amount</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Adjuster">
+            <summary>
+            Instances will be consulted when getting and setting a Field value
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Adjuster.Get(System.String)">
+            <summary>
+            Transforms a Field value while setting
+            </summary>
+            <param name="value">
+            actual, stored Field value 
+            </param>///
+            <returns>
+            a Field value that shall be returned 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Adjuster.Set(System.String)">
+            <summary>
+            Transforms a Field value while getting
+            </summary>
+            <param name="value">
+            a Field value user is trying to set 
+            </param>
+            <returns>
+            actual adjusted Field value that will be set 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.AMessage">
+            <summary>
+            Class representing a generic ISO 8583 message
+            </summary>
+            <remarks>
+            This class has been designed to be overridden and apply to all sorts of Bitmap messages. As such it does not create any fields itself (rev 87 and rev 93) nor does it have an MTID in it so you can use it if you need a sub message as a field. See <see cref="T:SwitchLink.Protocols.ISO8583.Iso8583"/> for an implementation of it
+            </remarks>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.bitmap">
+            <summary>
+              Bitmap for the ISO message
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.fields">
+            <summary>
+              Dictionary containing all the fields in the message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.#ctor(SwitchLink.Protocols.ISO8583.Template)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.AMessage"/> class.
+            </summary>
+            <param name="template">
+            The template. 
+            </param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AMessage.PackedLength">
+            <summary>
+              Gets the packed length of the message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AMessage.ProcessingCode">
+            <summary>
+              Gets the processing code (field 3) of the message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AMessage.Template">
+            <summary>
+             Gets a template describing the ISO message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.AMessage.Item(System.Int32)">
+            <summary>
+              Gets or sets the value of a field
+            </summary>
+            <param name="field"> Field number to get or set </param>
+            <returns> Value of the field or null if not present </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.ClearField(System.Int32)">
+            <summary>
+            Clears the field in the message
+            </summary>
+            <param name="field">
+            Field number to clear 
+            </param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.DescribePacking">
+            <summary>
+            Describe the packing of the message
+            </summary>
+            <returns>
+            the packing of the message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.IsFieldSet(System.Int32)">
+            <summary>
+            Returns if a field is set
+            </summary>
+            <param name="field">
+            Field number to retrieve 
+            </param>
+            <returns>
+            true if set, false otherwise 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.ToMsg(System.String)">
+            <summary>
+            Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>
+            byte[] representing the message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.ToString">
+            <summary>
+            Returns the contents of the message as a string
+            </summary>
+            <returns>
+            Pretty printed string 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.ToString(System.String)">
+            <summary>
+            Returns the contents of the message as a string
+            </summary>
+            <param name="prefix">
+            The prefix to apply to each line in the message 
+            </param>
+            <returns>
+            Pretty printed string 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.ToString(System.Int32,System.String)">
+            <summary>
+            Returns the field contents as a string for displaying in traces and the like
+            </summary>
+            <param name="field">
+            Field number 
+            </param>
+            <param name="prefix">
+            What each line must prepended with the prefix 
+            </param>
+            <returns>
+            Value of the field nicely formatted 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+            Unpacks the message from a byte array
+            </summary>
+            <param name="msg">
+            message data to unpack 
+            </param>
+            <param name="startingOffset">
+            the offset in the array to start 
+            </param>
+            <returns>
+            the offset in the array representing the start of the next message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.CreateField(System.Int32)">
+            <summary>
+            Create a field of the correct type and length
+            </summary>
+            <param name="field">
+            Field number to create 
+            </param>
+            <returns>
+            IField representing the desired field 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.GetField(System.Int32)">
+            <summary>
+            Gets a field to work on. Creates the field if it does not exist
+            </summary>
+            <param name="field">
+            Field number to get 
+            </param>
+            <returns>
+            Field to work on 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.GetFieldValue(System.Int32)">
+            <summary>
+            Get a field from the ISO message
+            </summary>
+            <param name="field">
+            Field to retrieve 
+            </param>
+            <returns>
+            Value of the field or null if not present 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.AMessage.SetFieldValue(System.Int32,System.String)">
+            <summary>
+            Sets a field with the given value in the ISO message.
+            </summary>
+            <param name="field">
+            The field.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <remarks>
+            Don't worry about creating the IField as this method will do so
+            </remarks>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.AMessage.AccountType">
+            <summary>
+            Account Types
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._00_DEFAULT">
+            <summary>
+              Default
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._10_SAVINGS">
+            <summary>
+              Savings
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._20_CHECK">
+            <summary>
+              Cheque/Check
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._30_CREDIT">
+            <summary>
+              Credit
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._40_UNIVERSAL">
+            <summary>
+              Universal
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._50_INVESTMENT">
+            <summary>
+              Investment
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AccountType._60_ELECTRONIC_PURSE_DEFAULT">
+            <summary>
+              Electronic purse default
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.AMessage.AmountType">
+            <summary>
+            Amount Types
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._01_LEDGER_BALANCE">
+            <summary>
+              Ledger Balance
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._02_AVAILABLE_BALANCE">
+            <summary>
+              Available Balance
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._03_OWING">
+            <summary>
+              Owing
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._04_DUE">
+            <summary>
+              Due
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._20_REMAINING_THIS_CYCLE">
+            <summary>
+              Remaining this cycle
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._40_CASH">
+            <summary>
+              Cash
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._41_GOODS_SERVICES">
+            <summary>
+              Goods and Services
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._53_APPROVED">
+            <summary>
+              Approved
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._56_TIP">
+            <summary>
+              Tip
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._90_AVAILABLE_CREDIT">
+            <summary>
+              Available Credit
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.AMessage.AmountType._91_CREDIT_LIMIT">
+            <summary>
+              Credit Limit
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Bitmap">
+            <summary>
+            Class representing a bitmap in an ISO 8583 message
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Bitmap.bits">
+            <summary>
+              The _bits.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.#ctor">
+            <summary>
+              Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.Bitmap" /> class. Create a new instance of the Bitmap class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.#ctor(SwitchLink.Protocols.ISO8583.Formatter.IFormatter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.Bitmap"/> class. Create a new instance of the Bitmap class
+            </summary>
+            <param name="formatter">
+            The formatter to use 
+            </param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Bitmap.IsExtendedBitmap">
+            <summary>
+              Gets a value indicating whether or not the extended bitmap is set
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.PackedLength">
+            <summary>
+              Gets the packed length of the message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Bitmap.Item(System.Int32)">
+            <summary>
+              Gets or sets the presence of a field in the bitmap
+            </summary>
+            <param name="field"> Field in question </param>
+            <returns> true if set, false otherwise </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.IsFieldSet(System.Int32)">
+            <summary>
+            Gets if a field is set
+            </summary>
+            <param name="field">
+            Field to query 
+            </param>
+            <returns>
+            true if set, false otherwise 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.SetField(System.Int32,System.Boolean)">
+            <summary>
+            Sets a field
+            </summary>
+            <param name="field">
+            Field to set 
+            </param>
+            <param name="on">
+            Whether or not the field is on 
+            </param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.ToMsg">
+            <summary>
+            Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>
+            byte[] representing the message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Bitmap.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+            Unpacks the bitmap from the message
+            </summary>
+            <param name="msg">
+            byte[] of the full message 
+            </param>
+            <param name="offset">
+            offset indicating the start of the bitmap 
+            </param>
+            <returns>
+            new offset to start unpacking the first field 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Crypto.Iso0PinBlockFormatter">
+            <summary>
+              Class dealing with creating an ISO-0 PIN Block
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Crypto.Iso0PinBlockFormatter.CreatePinBlock(System.String,System.String)">
+            <summary>
+              Creates a clear PIN block of the given PAN and PIN
+            </summary>
+            <param name = "pan">Primary Account Number</param>
+            <param name = "pin">Personal Identification Number</param>
+            <returns>Clear PIN Block</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Emv.EmvTags">
+            <summary>
+              Class representing a collection of EMV Tags
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.AddBcd(SwitchLink.Protocols.ISO8583.Emv.Tag,System.String)">
+            <summary>
+            Add a BCD value tag to the collection
+            </summary>
+            <param name="tag">
+            The tag 
+            </param>
+            <param name="value">
+            The value 
+            </param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.AddString(SwitchLink.Protocols.ISO8583.Emv.Tag,System.String)">
+            <summary>
+            ASCII encode a string value and add it to the tags collection
+            </summary>
+            <param name="tag">
+            Tag to add 
+            </param>
+            <param name="value">
+            String value 
+            </param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.GetBcd(SwitchLink.Protocols.ISO8583.Emv.Tag)">
+            <summary>
+            Get a BCD value from the collection
+            </summary>
+            <param name="tag">
+            The tag 
+            </param>
+            <returns>
+            The <see cref="T:System.String"/> value 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.GetString(SwitchLink.Protocols.ISO8583.Emv.Tag)">
+            <summary>
+            Get an ASCII string value from the collection
+            </summary>
+            <param name="tag">
+            The tag 
+            </param>
+            <returns>
+            The <see cref="T:System.String"/> value 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.ToString(System.String)">
+            <summary>
+            Convert EmvTags to a string
+            </summary>
+            <param name="indent">
+            Indent to prepend to each line 
+            </param>
+            <returns>
+            A string representing the tags 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.ToString">
+            <summary>
+              Convert EmvTags to a string
+            </summary>
+            <returns> A string representing the tags </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvTags.GetTagMasked(SwitchLink.Protocols.ISO8583.Emv.Tag,System.String)">
+            <summary>
+            Gets the tag value and masks if appropriate
+            </summary>
+            <param name="tag">
+            The tag 
+            </param>
+            <param name="value">
+            The value 
+            </param>
+            <returns>
+            Masked value 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Emv.EmvUtils">
+            <summary>
+              EMV Utilities
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvUtils.Pack(SwitchLink.Protocols.ISO8583.Emv.EmvTags)">
+            <summary>
+            Pack an <see cref="T:SwitchLink.Protocols.ISO8583.Emv.EmvTags"/> object into a byte array
+            </summary>
+            <param name="tags">
+            The tags 
+            </param>
+            <returns>
+            The packed byte array 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvUtils.UnpackEmvTags(System.Byte[])">
+            <summary>
+            Unpack a byte array into an <see cref="T:SwitchLink.Protocols.ISO8583.Emv.EmvTags"/> object
+            </summary>
+            <param name="msg">
+            The data 
+            </param>
+            <returns>
+            The <see cref="T:SwitchLink.Protocols.ISO8583.Emv.EmvTags"/> object 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Emv.EmvUtils.PackField(SwitchLink.Protocols.ISO8583.Emv.Tag,System.Byte[])">
+            <summary>
+            Pack an individual field into a byte array
+            </summary>
+            <param name="tag">
+            The tag. 
+            </param>
+            <param name="data">
+            The data. 
+            </param>
+            <returns>
+            The packed field 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Emv.NamespaceDoc">
+            <summary>
+                The <see cref="!:EftPay.Emv" /> namespace contains classes that are used for dealing with EMV tags in the format specified by EMVCo Book 3 v4.3
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Emv.Tag">
+            <summary>
+            EMV Tag
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_id_num">
+            <summary>
+            The number that identifies the major industry and the card issuer and that forms the first part of the Primary Account Number (PAN)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.aid">
+            <summary>
+            Identifies the application as described in ISO/IEC 7816-5
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_label">
+            <summary>
+            Mnemonic associated with the AID according to ISO/IEC 7816-5
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cmd_to_perform">
+            <summary>
+            The cmd_to_perform.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.track2_eq_data">
+            <summary>
+            Contains the data elements of track 2 according to ISO/IEC 7813, excluding start sentinel, end sentinel, and Longitudinal Redundancy Check (LRC), 
+            as follows: Primary Account Number (n, var. up to 19) Field Separator (Hex 'D') (b) Expiration Date (YYMM) (n 4) Service Code (n 3) Discretionary Data 
+            (defined by individual payment systems) (n, var.) Pad with one Hex 'F' if needed to ensure whole bytes (b)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_pan">
+            <summary>
+            Valid cardholder account number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cardholder_name">
+            <summary>
+            Indicates cardholder name according to ISO 7813
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.expiry_date">
+            <summary>
+            Date after which application expires
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.effect_date">
+            <summary>
+            Date from which the application may be used
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_country_code">
+            <summary>
+            Indicates the country of the issuer according to ISO 3166
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.trans_curcy_code">
+            <summary>
+            Indicates the currency code of the transaction according to ISO 4217
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.lang_preference">
+            <summary>
+            1–4 languages stored in order of preference, each represented by 2 alphabetical characters according to ISO 639
+             Note: EMVCo strongly recommends that cards be personalised with data element '5F2D' coded in lowercase, 
+            but that terminals accept the data element whether it is coded in upper or lower case.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.service_code">
+            <summary>
+            Service code as defined in ISO/IEC 7813 for track 1 and track 2
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_pan_seqnum">
+            <summary>
+            Service code as defined in ISO/IEC 7813 for track 1 and track 2
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.trans_curr_exp">
+            <summary>
+            Indicates the implied position of the decimal point from the right of the transaction amount represented according to ISO 4217
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_url">
+            <summary>
+            The URL provides the location of the Issuer’s Library Server on the Internet.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.int_bank_acc_no">
+            <summary>
+            Uniquely identifies the account of a customer at a financial institution as defined in ISO 13616.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.bank_id_code">
+            <summary>
+            Uniquely identifies a bank as defined in ISO 9362.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_country_code2">
+            <summary>
+            Indicates the country of the issuer as defined in ISO 3166 (using a 2 character alphabetic code)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_country_code3">
+            <summary>
+            Indicates the country of the issuer as defined in ISO 3166 (using a 3 character alphabetic code)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.account_type">
+            <summary>
+            Indicates the type of account selected on the terminal, coded as specified in Annex G
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_templ_61">
+            <summary>
+            Template containing one or more data objects relevant to an application directory entry according to [ISO 7816-5].	Card
+            data objects relevant to an application directory entry according to [ISO 7816-5].	
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.fci_templ_6f">
+            <summary>
+            Identifies the FCI template according to ISO/IEC 7816-4
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.isuer_scrpt_templ_71">
+            <summary>
+            Contains proprietary issuer data for transmission to the ICC before the second GENERATE AC command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.isuer_scrpt_templ_72">
+            <summary>
+            Contains proprietary issuer data for transmission to the ICC after the second GENERATE AC command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.dir_discr_templ_73">
+            <summary>
+            Issuer discretionary part of the directory according to ISO/IEC 7816-5
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.respmsg_fmt1_templ_77">
+            <summary>
+            Contains the data objects (with tags and lengths) returned by the ICC in response to a command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.respmsg_fmt2_templ_80">
+            <summary>
+            Contains the data objects (without tags and lengths) returned by the ICC in response to a command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.amount_auth">
+            <summary>
+            Authorised amount of the transaction (excluding adjustments)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_intchg_profile">
+            <summary>
+            Indicates the capabilities of the card to support specific functions in the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cmd_template">
+            <summary>
+            	Identifies the data field of a command message
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.df_name">
+            <summary>
+            Identifies the name of the DF as described in ISO/IEC 7816-4
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_script_cmd">
+            <summary>
+            Contains a command for transmission to the ICC
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_priority_ind">
+            <summary>
+            Indicates the priority of a given application or group of applications in a directory
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.sfi">
+             <summary>
+            Identifies the SFI to be used in the commands related to a given AEF or DDF. 
+             The SFI data object is a binary field with the three high order bits set to zero
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.auth_code">
+            <summary>
+            Value generated by the authorisation authority for an approved transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.auth_resp_code">
+            <summary>
+            Code that defines the disposition of a message
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cdol1">
+            <summary>
+            List of data objects (tag and length) to be passed to the ICC in the first GENERATE AC command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cdol2">
+            <summary>
+            List of data objects (tag and length) to be passed to the ICC in the second GENERATE AC command
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cvm_list">
+            <summary>
+            Identifies a method of verification of the cardholder supported by the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.auth_pubkey_index">
+            <summary>
+            Identifies the certification authority’s public key in conjunction with the RID
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iss_pubkey_cert">
+            <summary>
+            Issuer public key certified by a certification authority
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iss_auth_data">
+            <summary>
+            Data sent to the ICC for online issuer authentication
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iss_pubkey_rem">
+            <summary>
+            Remaining digits of the Issuer Public Key Modulus
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.signed_sad">
+            <summary>
+            Digital signature on critical application parameters for SDA
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.afl">
+            <summary>
+            Indicates the location (SFI, range of records) of the AEFs related to a given application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tvr">
+            <summary>
+            	Status of the different functions as seen from the terminal
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tdol">
+            <summary>
+            List of data objects (tag and length) to be used by the terminal in generating the TC Hash Value
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tc_hash">
+            <summary>
+            Result of a hash function specified in Book 2, Annex B3.1
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.pin_data">
+            <summary>
+            Data entered by the cardholder for the purpose of the PIN verification
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tran_date">
+            <summary>
+            Local date that the transaction was authorised
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tsi">
+            <summary>
+            Indicates the functions performed in a transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tran_type">
+            <summary>
+            Indicates the type of financial transaction, represented by the first two digits of ISO 8583:1987 Processing Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.ddf_name">
+            <summary>
+            Identifies the name of a DF associated with a directory
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.acq_id">
+            <summary>
+            Uniquely identifies the acquirer within each payment system
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.amt_auth_num">
+            <summary>
+            Authorised amount of the transaction (excluding adjustments)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.amt_other_num">
+            <summary>
+            Secondary amount associated with the transaction representing a cashback amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.amt_other_bin">
+             <summary>
+            Secondary amount associated with the transaction representing a cashback amount
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_disc_data">
+            <summary>
+            Issuer or payment system specified data relating to the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_id">
+            <summary>
+            Identifies the application as described in ISO/IEC 7816-5
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_use_cntrl">
+            <summary>
+            Indicates issuer’s specified restrictions on the geographic usage and services allowed for the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.app_ver_num">
+            <summary>
+            Version number assigned by the payment system for the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_ver_num">
+             <summary>
+            Version number assigned by the payment system for the application
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.crdhldrname_ext">
+             <summary>
+            Indicates the whole cardholder name when greater than 26 characters using the same coding convention as in ISO 7813
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iac_default">
+            <summary>
+            Specifies the issuer’s conditions that cause a transaction to be 
+            rejected if it might have been approved online, but the terminal is unable to process the transaction online
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iac_denial">
+            <summary>
+            Specifies the issuer’s conditions that cause the denial of a transaction without attempt to go online
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.iac_online">
+            <summary>
+            Specifies the issuer’s conditions that cause a transaction to be transmitted online
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_app_data">
+            <summary>
+            Contains proprietary application data for transmission to the issuer in an online transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.isssuer_code_tbl">
+            <summary>
+            Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_pre_name">
+            <summary>
+            Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.last_online_atc">
+            <summary>
+            ATC value of the last transaction that went online
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.lc_offline_lmt">
+            <summary>
+            Issuer-specified preference for the maximum number of consecutive offline transactions for this ICC application allowed
+             in a terminal with online capability
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.mer_cat_code">
+            <summary>
+            Classifies the type of business being done by the merchant, represented according to ISO 8583:1993 for Card Acceptor Business Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.mer_id">
+            <summary>
+            When concatenated with the Acquirer Identifier, uniquely identifies a given merchant
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.pin_try_counter">
+            <summary>
+            Number of PIN tries remaining
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_script_id">
+            <summary>
+            Identification of the Issuer Script
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_county_code">
+            <summary>
+            Indicates the country of the terminal, represented according to ISO 3166
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_floor_limit">
+            <summary>
+            Indicates the floor limit in the terminal in conjunction with the AID
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.temr_id">
+            <summary>
+            Designates the unique location of a terminal at a merchant
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_riskmgmt_data">
+            <summary>
+            Application-specific value used by the card for risk management purposes
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.ifd_ser_num">
+            <summary>
+            Unique and permanent serial number assigned to the IFD by the manufacturer
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.track1_disc_data">
+            <summary>
+            Discretionary part of track 1 according to ISO/IEC 7813
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.tran_time">
+            <summary>
+            Local time that the transaction was authorised
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_cryptogram">
+             <summary>
+            Cryptogram returned by the ICC in response of the GENERATE AC command
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.crypt_info_data">
+            <summary>
+            Indicates the type of cryptogram and the actions to be performed by the termina
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_cap">
+            <summary>
+            Indicates the card data input, CVM, and security capabilities of the terminal
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.cvm_results">
+            <summary>
+            Indicates the results of the last CVM performed
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.atc">
+            <summary>
+            Counter maintained by the application in the ICC (incrementing the ATC is managed by the ICC)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.unpred_num">
+            <summary>
+            Value to provide variability and uniqueness to the generation of a cryptogram
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.term_adtnal_cap">
+             <summary>
+            Indicates the data input and output capabilities of the terminal
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.trans_seq_counter">
+            <summary>
+            Counter maintained by the terminal that is incremented by one for each transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.data_auth_code">
+            <summary>
+            An issuer assigned value that is retained by the terminal during the verification process of the Signed Static Application Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.icc_dynamic_num">
+            <summary>
+            Time-variant number generated by the ICC, to be captured by the terminal
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.icc_request">
+            <summary>
+            The icc_request.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.icc_response">
+            <summary>
+            The icc_response.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.point_of_servic_entry_mode">
+            <summary>
+            Indicates the method by which the PAN was entered, according to the first two digits of the ISO 8583:1987 POS Entry Mode
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.terminal_type">
+            <summary>
+            Indicates the environment of the terminal, its communications capability, and its operational control
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.issuer_script_results">
+            <summary>
+            Indicates the result of the terminal script processing.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.terminal_verification_results">
+            <summary>
+            Status of the different functions as seen from the terminal.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.trans_category_code">
+            <summary>
+            This is a data object defined by MasterCard which indicates the type of transaction being performed, and which may be used in card risk management
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.appl_usage_control">
+            <summary>
+            Indicates issuer's specified restrictions on the geographic usage and services allowed for the application
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Emv.Tag.auth_response_code">
+            <summary>
+            (ARC)
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldType">
+            <summary>
+            Enum describing field types
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.FieldType.Fixed">
+            <summary>
+            Fixed length field
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.FieldType.Variable">
+            <summary>
+            Variable length field
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.EuropayMessage">
+            <summary>
+            Europay Message Type (ISO 8583 Revision 87)
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.EuropayMessage.#ctor">
+            <summary>
+            Creates an instance of the EuropayMessage class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.EuropayMessage.Unpack(System.Byte[])">
+            <summary>
+              Unpacks the message from a byte array
+            </summary>
+            <param name = "msg">message data to unpack</param>
+            <returns>the offset in the array representing the start of the next message</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.EuropayMessage.Type">
+            <summary>
+            IntelliSense friendly message type constants
+            ; Hex notation like 0x0100 may also be used instead of these constants
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.EuropayMessage.Type.GetResponse(System.Int32)">
+            <summary>
+              Gets the response message type for the given message type. E.g. 0220 -> 0230, 0421 -> 0430
+            </summary>
+            <param name = "messageType">Request Message Type</param>
+            <returns>Response Message Type</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.EuropayMessage.Fld">
+            <summary>
+            IntelliSense friendly field name/number constants
+            ; Plain integer values may also be used instead of these constants
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Exceptions.FieldDescriptorException">
+            <summary>
+              Exception thrown for constructing a field descriptor
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.FieldDescriptorException.#ctor(System.String)">
+            <summary>
+              Initialises a new instance of the FieldDescriptorException class
+            </summary>
+            <param name = "message">A message that describes the error</param>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Exceptions.FieldFormatException">
+            <summary>
+              Exception class for an incorrectly formatted field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.FieldFormatException.#ctor(System.Int32,System.String)">
+            <summary>
+              Create a new instance of the FieldFormatException class
+            </summary>
+            <param name = "fieldNumber"></param>
+            <param name = "message"></param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.FieldFormatException.#ctor(System.String,System.Int32,System.String)">
+            <summary>
+              Create a new instance of the FieldFormatException class
+            </summary>
+            <param name="prefix"></param>
+            <param name = "fieldNumber"></param>
+            <param name = "message"></param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Exceptions.FieldFormatException.FieldNumber">
+            <summary>
+              Field number that the exception applies to
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Exceptions.FieldLengthException">
+            <summary>
+              Exception detailing a field length
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.FieldLengthException.#ctor(System.Int32,System.String)">
+            <summary>
+              Create a new instance of the FieldLengthException class
+            </summary>
+            <param name = "fieldNumber">Field number that is incorrect</param>
+            <param name = "message">Message to apply to the exception</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Exceptions.FieldLengthException.FieldNumber">
+            <summary>
+              Field number that this exception applies to
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Exceptions.FormatException">
+            <summary>
+            Used to show a format exception in building the ISO message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.FormatException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the FormatException class
+            </summary>
+            <param name="message">Message to include in the exception</param>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Exceptions.UnknownFieldException">
+            <summary>
+              This exception is thrown when the field that is being created is unknown
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Exceptions.UnknownFieldException.#ctor(System.String)">
+            <summary>
+              Create a new instance of the UnknownFieldException class
+            </summary>
+            <param name = "fieldNumber">Field number that was created</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Exceptions.UnknownFieldException.FieldNumber">
+            <summary>
+              Field number that was attemted to be created
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Field">
+            <summary>
+              Class representing a field
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field._fieldDescriptor">
+            <summary>
+              Field descriptor
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.#ctor(System.Int32,SwitchLink.Protocols.ISO8583.IFieldDescriptor)">
+            <summary>
+              Creates a new instance of the Field class
+            </summary>
+            <param name = "fieldNumber">The field number that this object represents</param>
+            <param name = "fieldDescriptor">Field descriptor</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field.Value">
+            <summary>
+              The Value contained in the field
+            </summary>
+            adjustment is skipped if there is no Adjuster
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field.FieldNumber">
+            <summary>
+              Gets the field number that this field representss
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field.PackedLength">
+            <summary>
+              Gets the packed length of the field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.ToString">
+            <summary>
+              Gets a representation of the field as a string
+            </summary>
+            <returns>String representation of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.ToString(System.String)">
+            <summary>
+              Gets a representation of the field as a string
+            </summary>
+            <param name = "prefix">Prefix to add onto the string</param>
+            <returns>String representation of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+              Unpacks the field from the message
+            </summary>
+            <param name = "msg">byte[] of the full message</param>
+            <param name = "offset">offset indicating the start of the field</param>
+            <returns>new offset in message to start unpacking the next field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.ToMsg(System.String)">
+            <summary>
+              Returns a byte[] representation of the field
+            </summary>
+            <returns>byte[] representing the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.AsciiFixed(System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator)">
+            <summary>
+              Create an ASCII fixed length field descriptor
+            </summary>
+            <param name = "fieldNumber">Field number</param>
+            <param name = "packedLength">The packed length of the field.  For BCD fields, this is half the size of the field you want</param>
+            <param name = "validator">Validator to use on the field</param>
+            <returns>field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.AsciiVar(System.Int32,System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator)">
+            <summary>
+              Create an ASCII variable length field
+            </summary>
+            <param name = "fieldNumber">field number</param>
+            <param name = "lengthIndicator">length indicator</param>
+            <param name = "maxLength">maximum length of field</param>
+            <param name = "validator">validator to use on the field</param>
+            <returns>field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field.BinFixed(System.Int32,System.Int32)">
+            <summary>
+              Create a binary fixed length field
+            </summary>
+            <param name = "fieldNumber">field number</param>
+            <param name = "packedLength">length of the field</param>
+            <returns>field</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Field127">
+            <summary>
+              Field 127 is Postilions private field which itself is a bitmap message.
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field127.FieldNumber">
+            <summary>
+              Gets the field number that this field representss
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field127.Value">
+            <summary>
+              The Value contained in the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Field127.PackedLength">
+            <summary>
+              Gets the packed length of the message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field127.ToMsg(System.String)">
+            <summary>
+              Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>byte[] represenFting the message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field127.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+              Unpacks the message from a byte array
+            </summary>
+            <param name = "msg">message data to unpack</param>
+            <param name = "startingOffset">the offset in the array to start</param>
+            <returns>the offset in the array representing the start of the next message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field127.GetPrivFieldTemplate">
+            <summary>
+            Defines the Template used to describe the content of Field 127 - Realtime Private Field
+            </summary>
+            <returns>A Template defining the subfields contained in Field 127</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field127.CreateField(System.Int32)">
+            <summary>
+            Create a field of the correct type and length
+            </summary>
+            <param name="field">
+            Field number to create 
+            </param>
+            <returns>
+            IField representing the desired field 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Field127.ToString(System.String)">
+            <summary>
+            Returns the contents of the message as a string
+            </summary>
+            <param name="prefix">
+            The prefix to apply to each line in the message 
+            </param>
+            <returns>
+            Pretty printed string 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Field127.Bit">
+            <summary>
+              Human readable constants mapping to field numbers
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._002_SWITCH_KEY">
+            <summary>
+              The switch key field uniquely identifies a transaction. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._003_ROUTING_INFORMATION">
+             <summary>
+               The totals group, Source Node, Sink Node and systems trace audit numbers associated with a customer 
+             transaction. Although passed in a variable length field, this is a fixed length field of 48 characters consisting of 5 data elements:
+                     The source node(positions 1 - 12), left justified, space-filled.
+                     The sink node(positions 13 - 24), left justified, space-filled.
+                    The source node systems trace audit number(positions 25 - 30).
+             The sink node systems trace audit number(positions 31 - 36).
+            The totals group(positions 37 - 48), left justified, space-filled.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._004_POS_DATA">
+            <summary>
+              POS Data
+            Contains data passed from the Point-of-Service (POS) system, e.g. a cash register. Although passed in a variable length field, this is a fixed length field of 22 characters consisting of 3 data elements:
+                    The POS terminal ID(positions 1 - 8) identifying the POS terminal, e.g.a cash register, on which the transaction was performed.
+                   The POS sequence number (positions 9 - 14) specifying the POS terminal sequence number.
+                   The POS operator ID (positions 15 - 22) specifying the cashier that performed the transaction.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._005_SERVICE_STATION_DATA">
+             <summary>
+               Contains data passed from a service station, i.e. forecourt system, for forwarding to the card issuer. This data is typically used for fleet management. 
+             This data element consists of 2 mandatory fields and up to 3 repetitions of a group of 3 fields. Note that this is a fixed format data element. All unused fields should contain spaces.
+                      The vehicle usage(position 1) indicates whether the product(s) was purchased for business or private use(0 - private, 1 - business).
+            The odometer reading(positions 2 - 7) of the vehicle.
+                        The following group of fields represents a fuel product and can be repeated up to 3 times(i.e. 3 different products are supported):
+                       The product ID(positions 1 - 2) specifying the fuel product purchased.
+            The literage(positions 3 - 10) specifying the literage of the product purchased.
+            The amount(positions 11 - 22) of the product purchased.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._006_AUTH_PROFILE">
+             <summary>
+               Provides additional information on the conditions under which authorization should be or was performed:
+             Provides additional information on the conditions under which authorization should be or was performed:
+            The type (position 1) of authorization.
+            The authorization limits (position 2) used.
+             The type(position 1) of authorization.
+            The authorization limits (position 2) used.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._007_CHECK_DATA">
+             <summary>
+            Contains check guarantee or check verification data. This field can be in a number of different formats. The first 2 digits indicate the format. 
+             This field may be extended to new formats in the future. Currently supported formats are:
+            Driver license format
+            Formatted MICR format
+            Plastic card account number format
+            Unformatted MICR format
+            Note: The use of the CheckData DTD(for field 127.22) is preferred over the use of field 127.7.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._008_RETENTION_DATA">
+            <summary>
+              Transparent data passed from a Source or Sink Node to the Transaction Manager for retention in the transaction table. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._009_ADDITIONAL_NODE_DATA">
+            <summary>
+              Transparent data passed from a Source Node to a Sink Node, or from a Sink Node to a Source Node
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._010_CVV2">
+            <summary>
+             The embossed Visa CVV2 value that was manually entered when the magnetic stripe could not be read. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._011_ORIG_KEY">
+             <summary>
+               This is a Postilion specific addition to the ISO 8583 standard. The switch key of the original message, intended for transaction matching (e.g. to identify a transaction for correction or reversal).
+            
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._012_TERM_OWNER">
+            <summary>
+             Contains the name of the financial institution that owns the ATM, or the name of the merchant where the POS terminal is located. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._013_POS_GEOGRAPHIC_DATA">
+             <summary>
+               Contains a series of codes to identify the state, county, postal service code and country code where the POS device is physically located. 
+             This data element is defined in ANSI X9.2 (1988). The layout is as follows:
+            The numeric state code(positions 1 - 2).
+            The numeric county code(positions 3 - 5).
+            The alphanumeric postal service code(positions 6 - 14).
+            The numeric country code(positions 15 - 17).
+            If any of the sub-fields are not used, it should be set to spaces.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._014_SPONSOR_BANK">
+            <summary>
+              Identifies the institution sponsoring the card acceptor POS terminal. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._015_ADDRESS_VERIFICATION_DATA">
+             <summary>
+               This field can contain cardholder address information for a mail order or airline transaction. The layout is as follows:
+            The alphanumeric postal/ZIP code(positions 1 - 9).
+            The alphanumeric cardholder address(positions 10 - 29). 
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._016_ADDRESS_VERIFICATION_RESULT">
+            <summary>
+              Contains the result of a transaction involving address verification.
+            A Address matches, postal/ZIP code does not
+            E Error
+            N Neither address nor postal/ZIP code matches
+            R Retry
+            U Unavailable
+            Y Address and postal/ZIP code matches
+            Z postal/ZIP code matches, address does not
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._017_CARDHOLDER_INFORMATION">
+            <summary>
+              Contains cardholder related response information. This information is typically returned by the authorizer of the transaction. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._018_VALIDATION_DATA">
+            <summary>
+              Contains cardholder related validation information. This information is typically supplied by the originator of the transaction 
+            as an additional security mechanism. This data can be used by the authorizer when authorizing a transaction. For example, 
+            this field could contain the identification number of the cardholder. If this value differs from the value carried in the cardholder 
+            database of the authorizer, the transaction may be declined. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._019_BANK_DETAILS">
+             <summary>
+               Contains bank and branch details.
+            This field is used to specify the bank details of the payee(recipient) of a payment transaction.Payments made to Customer defined payees require either bank details or address details to be specified in the transaction message.
+            Field    |  Length |  Format | Description
+            Bank ID  |   9     |    ANS  |The financial institution where the bank account of the recipient is kept.Typically, the field will be space filled to the right when less than 9 characters are available.The interpretation of this field varies by country.
+            Branch ID|  22     |    ANS  |The branch where the bank account is kept.Typically, the field will be space filled to the right when less than 22 characters are available.The interpretation of this field varies by country.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._020_ORIG_AUTH_DATE_SETTLEMENT">
+            <summary>
+              This field contains the settlement date of the authorizer. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._021_RECORD_ID">
+            <summary>
+             Contains the record ID for any file update transaction. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._022_STRUCTURED_DATA">
+            <summary>
+              This field uses a key/value pair structure to represent data. The idea behind the field is to provide a flexible mechanism with which to transport data through Postilion. There is therefore no limitation to what either the key or value may contain, provided of course that the format of the field is adhered to.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._023_PAYEE_NAME_ADDR">
+             <summary>
+               Contains identification and billing information for a payee. All fields are left-justified, space filled to the right.
+            This field is used when making a payment to a Customer defined payee, where the payee is defined by its address details.A bank, for example, would use these details to post a check to the payee on the customers behalf.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._024_PAYER_ACC_ID">
+            <summary>
+              Defines the payer account ID at the payee. 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._025_ICC_DATA">
+             <summary>
+               The field contains data for use with integrated circuit cards that implement the EMV specification.
+            This field can contain ICC Data in 2 different formats but only one format can be used per message.PostBridge will automatically detect which format is used in messages to PostBridge.A user parameter will configure how ICC Data is formatted in messages from PostBridge.
+             </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:SwitchLink.Protocols.ISO8583.Field127.Bit._026_ORIGINAL_NODE" -->
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._027_CARD_VERIFICATION_RESULT">
+             <summary>
+               Contains the result of a transaction involving card verification.
+            M CVV2 valid(match), CVV valid or not available
+            N CVV2 invalid(non-match), CVV valid or not available
+            P Unable to process CVV2, CVV valid or not available
+            U Issuer unregistered to process CVV2, CVV valid or not available
+            Y CVV invalid
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._028_AMEX_CARD_ID">
+             <summary>
+               The American Express Card Identifier (CID) is similar to Visa's CVV2 and MasterCard's CVC2. It is used for additional validation in card-not-present transactions.
+             Note that if the Transaction Manager is configured to perform stand-in, it will not validate the American Express Card Identifier(CID) while performing stand-in. Hence if the Transaction Manager performs stand-in for a transaction where this field is present, it does not imply that the data in this field is valid and correct.
+            The American Express Card Identifier (CID) is passed through the Transaction Manager unaltered and not saved in the database.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._029_3D_SECURE_DATA">
+             <summary>
+              3D-Secure Data is made up of the following two subfields (both with format b20):
+            The Transaction Identifier(XID) (positions 1 to 20).
+            The Cardholder Authentication Verification Value(CAVV) (positions 21 to 40).
+            3D-Secure data is passed through the Transaction Manager unaltered and not saved in the database.
+            The Transaction Manager is not allowed to perform stand-in authorization for 3D-Secure transactions.
+             </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:SwitchLink.Protocols.ISO8583.Field127.Bit._030_3D_SECURE_RESULT" -->
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._031_ISSUER_NETWORK_ID">
+            <summary>
+              Contains the ID of the network that the issuer belongs to, that either switched the transaction to the issuer, or authorized the transaction on behalf of the Issuer.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._032_UCAF_DATA">
+             <summary>
+               Contains the MasteCard UCAF (Universal Cardholder Authentication Field) field for electronic commerce transactions.
+            This field consists of two subfields: 
+            UCAF collection indicator with a format of n1, which can have one of the following values: 
+            0 – UCAF data collection is not supported at the merchant's web site.
+            1 – UCAF data collection is supported by the merchant, but UCAF data was not populated.
+            2 – UCAF data collection is supported by the merchant and the UCAF data was populated.
+            UCAF authentication data with a format of b..32. If the UCAF collection indicator subfield is set to 0 or 1, this subfield will not be present.
+             </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._033_EXTENDED_TRAN_TYPE">
+            <summary>
+              Extended Transaction Type - Financial transaction types (6000 - 9999): 
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._034_ACC_TYPE_QUALIFIERS">
+            <summary>
+              Account Type Qualifiers
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._035_ACQ_NETWORK_ID">
+            <summary>
+              This field contains the 'From' and 'To' account type qualifiers for the account types specified in Field 3 - Processing Code. An account type qualifier is an indication of whether the primary, secondary or tertiary account of a specific type should be used.
+            This field consists of two subfields: 
+            Account Type Qualifier which qualifies the "From" Account Type(position 1)
+            Account Type Qualifier which qualifies the "To" Account Type(position 2)
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._036_CUSTOMER_ID">
+            <summary>
+            Contains the ID of the network that the acquirer belongs to, that switched the transaction from the acquirer.
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._037_EXTENDED_RESPONSE_CODE">
+            <summary>
+            Extended Response Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._038_ADDITIONAL_POS_DATA_CODE">
+            <summary>
+            Additional Pos Data Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Field127.Bit._039_ORIG_RESPONSE_CODE">
+            <summary>
+              Original Response Code
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldDescriptor">
+            <summary>
+            A class describing a field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.#ctor(SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator,SwitchLink.Protocols.ISO8583.Formatter.IFormatter,SwitchLink.Protocols.ISO8583.Adjuster)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.FieldDescriptor"/> class.
+            </summary>
+            <param name="lengthFormatter">
+            The length formatter. 
+            </param>
+            <param name="validator">
+            The validator. 
+            </param>
+            <param name="formatter">
+            The formatter. 
+            </param>
+            <param name="adjuster">
+            The adjuster. 
+            </param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldDescriptor.Adjuster">
+            <summary>
+              Gets the Field Adjuster (may be null)
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldDescriptor.Formatter">
+            <summary>
+              Gets the field formatter describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldDescriptor.LengthFormatter">
+            <summary>
+              Gets the length formatter describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldDescriptor.Validator">
+            <summary>
+              Gets the validator describing the field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiAlphaNumeric(System.Int32)">
+            <summary>
+            Create ASCII packed fixed length auto-padding alphanumeric field (AN)
+            </summary>
+            <param name="length">
+            length of the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiAmount(System.Int32)">
+            <summary>
+            Create ASCII packed fixed length auto-padding amount field (AMOUNT)
+            </summary>
+            <param name="length">
+            length of the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiFixed(System.Int32,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator)">
+            <summary>
+            Create an ASCII fixed length field descriptor
+            </summary>
+            <param name="packedLength">
+            The packed length of the field. For BCD fields, this is half the size of the field you want 
+            </param>
+            <param name="validator">
+            Validator to use on the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiLlCharacter(System.Int32)">
+            <summary>
+            Create ASCII packed variable length LL alphanumeric field (LL CHAR)
+            </summary>
+            <param name="maxLength">
+            maximum field length 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiLlNumeric(System.Int32)">
+            <summary>
+            Create ASCII packed variable length LL numeric field (LL NUM)
+            </summary>
+            <param name="maxLength">
+            maximum field length 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiLllBinary(System.Int32)">
+            <summary>
+            Create ASCII packed variable length binary LLL field (LLL BINARY)
+            </summary>
+            <param name="packedLength">
+            length of the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiLllCharacter(System.Int32)">
+            <summary>
+            Create ASCII packed variable length LLL alphanumeric field (LLL CHAR)
+            </summary>
+            <param name="maxLength">
+            maximum field length 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiLllNumeric(System.Int32)">
+            <summary>
+            Create ASCII packed variable length LLL numeric field (LLL NUM)
+            </summary>
+            <param name="maxLength">
+            maximum field length 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiNumeric(System.Int32)">
+            <summary>
+            Create ASCII packed fixed length auto-padding numeric field (N)
+            </summary>
+            <param name="length">
+            length of the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.AsciiVar(System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator)">
+            <summary>
+            Create an ASCII variable length field descriptor
+            </summary>
+            <param name="lengthIndicator">
+            length indicator 
+            </param>
+            <param name="maxLength">
+            maximum length of the field 
+            </param>
+            <param name="validator">
+            Validator to use on the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.BinaryVar(System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator)">
+            <summary>
+            Create a Binary variable length field descriptor
+            </summary>
+            <param name="lengthIndicator">length indicator</param>
+            <param name="maxLength">max length of field</param>
+            <param name="validator">validator to use on the field</param>
+            <returns>field descriptor</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.BcdFixed(System.Int32)">
+            <summary>
+            The bcd fixed.
+            </summary>
+            <param name="length">
+            The length. 
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.BcdVar(System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.Formatter.IFormatter)">
+            <summary>
+            The bcd var.
+            </summary>
+            <param name="lengthIndicator">
+            The length indicator. 
+            </param>
+            <param name="maxLength">
+            The max length. 
+            </param>
+            <param name="lengthFormatter">
+            The length formatter. 
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.BinaryFixed(System.Int32)">
+            <summary>
+            Create a binary fixed length field
+            </summary>
+            <param name="packedLength">
+            length of the field 
+            </param>
+            <returns>
+            field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.Create(SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator,SwitchLink.Protocols.ISO8583.Formatter.IFormatter,SwitchLink.Protocols.ISO8583.Adjuster)">
+            <summary>
+            Create a field descriptor
+            </summary>
+            <param name="lengthFormatter">
+            The length formatter. 
+            </param>
+            <param name="fieldValidator">
+            The field validator. 
+            </param>
+            <param name="formatter">
+            The formatter. 
+            </param>
+            <param name="adjuster">
+            The adjuster. 
+            </param>
+            <returns>
+            A field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.Create(SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter,SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator,SwitchLink.Protocols.ISO8583.Formatter.IFormatter)">
+            <summary>
+            Create a Field descriptor.
+            </summary>
+            <param name="lengthFormatter">
+            The length formatter. 
+            </param>
+            <param name="fieldValidator">
+            The field validator. 
+            </param>
+            <param name="formatter">
+            The formatter. 
+            </param>
+            <returns>
+            Field descriptor 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.PanMask(SwitchLink.Protocols.ISO8583.IFieldDescriptor)">
+            <summary>
+            Decorates IFieldDescriptor.Display method with a PCI-DSS PAN mask.
+            </summary>
+            <param name="decoratedFieldDescriptor">
+            The decorated Field Descriptor. 
+            </param>
+            <returns>
+            The pan mask. 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.Display(System.String,System.Int32,System.String)">
+            <summary>
+            Display the field, used in traces
+            </summary>
+            <param name="prefix">
+            Prefix to display before the field 
+            </param>
+            <param name="fieldNumber">
+            Field number 
+            </param>
+            <param name="value">
+            field contents 
+            </param>
+            <returns>
+            formatted string representing the field 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.GetPackedLength(System.String)">
+            <summary>
+            Get the packed length of the field, including a length header if necessary for the given value
+            </summary>
+            <param name="value">
+            Value to calculate length for 
+            </param>
+            <returns>
+            Packed length of the field, including length header 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.Pack(System.Int32,System.String)">
+            <summary>
+            Packs the field into a byte[]
+            </summary>
+            <param name="fieldNumber">
+            number of the field 
+            </param>
+            <param name="value">
+            Value of the field to pack 
+            </param>
+            <returns>
+            field data packed into a byte[] 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldDescriptor.Unpack(System.Int32,System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Unpack the field from the message
+            </summary>
+            <param name="fieldNumber">
+            field number 
+            </param>
+            <param name="data">
+            message data to unpack from 
+            </param>
+            <param name="offset">
+            offset in the message to start 
+            </param>
+            <param name="newOffset">
+            offset at the end of the field for the next field 
+            </param>
+            <returns>
+            valud of the field 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaFieldValidator">
+            <summary>
+              Alpha field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericAndSpaceFieldValidator">
+            <summary>
+              Alpha numeric and space field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericAndSpaceFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericAndSpaceFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericFieldValidator">
+            <summary>
+              Alpha numeric field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericPrintableFieldValidator">
+            <summary>
+              Alpha numeric printable field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericPrintableFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericPrintableFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericSpecialFieldValidator">
+            <summary>
+              Alpha numeric special field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericSpecialFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaNumericSpecialFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaOrNumericFieldValidator">
+            <summary>
+              Alpha or Numeric field validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaOrNumericFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.AlphaOrNumericFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators">
+            <summary>
+              Static class returning the various field validators
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.A">
+            <summary>
+              Get an Alpha validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Alpha">
+            <summary>
+              Get an Alpha validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.An">
+            <summary>
+              Get an AlphaNumeric field validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AlphaNumeric">
+            <summary>
+              Get an AlphaNumericFieldValidator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Ansp">
+            <summary>
+              Get an AlphaNumericAndSpace field validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AlphaNumericAndSpace">
+            <summary>
+              Get an AlphaNumericAndSpaceFieldValidator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Anp">
+            <summary>
+              Get an Alphanumeric and printable chars validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AlphaNumericPrintable">
+            <summary>
+              Get an Alphanumeric and printable chars validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Ans">
+            <summary>
+              Get an Alphanumeric and special chars validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AlphaNumericSpecial">
+            <summary>
+              Get an Alphanumeric and special chars validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AorN">
+            <summary>
+              Get an Alpha or Numeric validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.AlphaOrNumeric">
+            <summary>
+              Get an Alpha or Numeric validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Hex">
+            <summary>
+              Gets a validator for hex data
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.None">
+            <summary>
+              Gets a validator that allows anything
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.N">
+            <summary>
+              Get a Numeric field validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Numeric">
+            <summary>
+              Get a Numeric field validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Track2">
+            <summary>
+              Get a field validator to validate track 2 data
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.FieldValidators.Rev87AmountValidator">
+            <summary>
+              Get a validator for ISO8583:87 amount format (x+n8)
+            </summary>
+            <remarks>
+              For example x+n8 valid would be C00000000 or D00000000
+            </remarks>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.HexFieldValidator">
+            <summary>
+              Hex field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.HexFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.HexFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator">
+            <summary>
+              Interface describing a field format validator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.IFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.NoneFieldValidator">
+            <summary>
+              Field formatter that always returns true
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.NoneFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.NoneFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.NumericFieldValidator">
+            <summary>
+              Numeric field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.NumericFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.NumericFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.Rev87AmountFieldValidator">
+            <summary>
+              ISO 8583 Revision 87 amount field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.Rev87AmountFieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.Rev87AmountFieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.FieldValidator.Track2FieldValidator">
+            <summary>
+              Track 2 data field formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.FieldValidator.Track2FieldValidator.Description">
+            <summary>
+              Description of the validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.FieldValidator.Track2FieldValidator.IsValid(System.String)">
+            <summary>
+              Validates the format of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Formatter.AsciiFormatter">
+            <summary>
+              ASCII Field Formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.AsciiFormatter.GetBytes(System.String)">
+            <summary>
+              Format the string and return as an encoded byte array
+            </summary>
+            <param name = "value">value to format</param>
+            <returns>Encoded byte array</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.AsciiFormatter.GetString(System.Byte[])">
+            <summary>
+              Takes the byte array and converts it to a string for use
+            </summary>
+            <param name = "data">Data to convert</param>
+            <returns>Converted data</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.AsciiFormatter.GetPackedLength(System.Int32)">
+            <summary>
+              Gets the packed length of the data given the unpacked length
+            </summary>
+            <param name = "unpackedLength">Unpacked length</param>
+            <returns>Packed length of the data</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Formatter.BcdFormatter">
+            <summary>
+              This class will format ASCII to BCD
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BcdFormatter.GetBytes(System.String)">
+            <summary>
+              Format the string and return a byte array
+            </summary>
+            <param name = "value">value to format</param>
+            <returns>Encoded byte array</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BcdFormatter.GetString(System.Byte[])">
+            <summary>
+              Return a string from the given byte array
+            </summary>
+            <param name = "data">encoded byte array</param>
+            <returns>value to return</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BcdFormatter.GetPackedLength(System.Int32)">
+            <summary>
+            Get the packed length of a data item
+            </summary>
+            <param name="unpackedLength">Unpacked length</param>
+            <returns>Packed length</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Formatter.BinaryFormatter">
+            <summary>
+              Binary FIeld Formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BinaryFormatter.GetBytes(System.String)">
+            <summary>
+              Format the string and return as an encoded byte array
+            </summary>
+            <param name = "value">value to format</param>
+            <returns>Encoded byte array</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BinaryFormatter.GetString(System.Byte[])">
+            <summary>
+              Takes the byte array and converts it to a string for use
+            </summary>
+            <param name = "data">Data to convert</param>
+            <returns>Converted data</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.BinaryFormatter.GetPackedLength(System.Int32)">
+            <summary>
+              Gets the packed length of the data given the unpacked length
+            </summary>
+            <param name = "unpackedLength">Unpacked length</param>
+            <returns>Packed length of the data</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Formatter.Formatters">
+            <summary>
+              Convenience class containing formatters
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Formatter.Formatters.Ascii">
+            <summary>
+              Get an ASCII Formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Formatter.Formatters.Bcd">
+            <summary>
+              Get a BCD formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Formatter.Formatters.Binary">
+            <summary>
+              Get a Binary Formatter
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Formatter.IFormatter">
+            <summary>
+              Field Formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.IFormatter.GetBytes(System.String)">
+            <summary>
+              Format the string and return as an encoded byte array
+            </summary>
+            <param name = "value">value to format</param>
+            <returns>Encoded byte array</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.IFormatter.GetString(System.Byte[])">
+            <summary>
+              Takes the byte array and converts it to a string for use
+            </summary>
+            <param name = "data">Data to convert</param>
+            <returns>Converted data</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Formatter.IFormatter.GetPackedLength(System.Int32)">
+            <summary>
+              Gets the packed length of the data given the unpacked length
+            </summary>
+            <param name = "unpackedLength">Unpacked length</param>
+            <returns>Packed length of the data</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.HashtableMessage">
+            <summary>
+              The HashtableMessage class allows a Hashtable containing String key and 
+              String value pairs to be serialised and deserialised so that a Hashtable 
+              may be included in an ISO message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.HashtableMessage.FromMessageString(System.String)">
+            <summary>
+              Initialiases the object from a string value
+            </summary>
+            <param name = "message">The string containing the data</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.HashtableMessage.ToMessageString">
+            <summary>
+              Serialises the hashtable message
+            </summary>
+            <returns>Serialised form of the hashtable message</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.IField">
+            <summary>
+              Interface representing a field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IField.FieldNumber">
+            <summary>
+              Gets the field number that this field representss
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IField.PackedLength">
+            <summary>
+              Gets the packed length of the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IField.Value">
+            <summary>
+              The Value contained in the field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IField.ToMsg(System.String)">
+            <summary>
+              Returns a byte[] representation of the field
+            </summary>
+            <returns>byte[] representing the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IField.ToString(System.String)">
+            <summary>
+              Gets a representation of the field as a string
+            </summary>
+            <param name = "prefix">Prefix to add onto the string</param>
+            <returns>String representation of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IField.ToString">
+            <summary>
+              Gets a representation of the field as a string
+            </summary>
+            <returns>String representation of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IField.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+              Unpacks the field from the message
+            </summary>
+            <param name = "msg">byte[] of the full message</param>
+            <param name = "offset">offset indicating the start of the field</param>
+            <returns>new offset in message to start unpacking the next field</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.IFieldDescriptor">
+            <summary>
+            IFieldDescriptor - an Iso Field definition
+            </summary>
+            <remarks>
+            If you need concurrency keep in mind that a single IFieldDescriptor instance is used by multiple IField state keeping instances and thus IFieldDescriptors (and all instances they reference) MUST be reentrant, ie. stateless. State (context) should be kept inside IFields and passed into IFieldDescriptors
+            </remarks>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Adjuster">
+            <summary>
+            Gets the adjuster that will be applied during get value and set value
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Formatter">
+            <summary>
+            Gets the field formatter describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IFieldDescriptor.LengthFormatter">
+            <summary>
+            Gets the length formatter describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Validator">
+            <summary>
+            Gets the validator describing the field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Display(System.String,System.Int32,System.String)">
+            <summary>
+            Display the field, used in traces
+            </summary>
+            <param name="prefix">
+            Prefix to display before the field 
+            </param>
+            <param name="fieldNumber">
+            Field number 
+            </param>
+            <param name="value">
+            field contents 
+            </param>
+            <returns>
+            formatted string representing the field 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IFieldDescriptor.GetPackedLength(System.String)">
+            <summary>
+            Get the packed length of the field, including a length header if necessary for the given value
+            </summary>
+            <param name="value">
+            Value to calculate length for 
+            </param>
+            <returns>
+            Packed length of the field, including length header 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Pack(System.Int32,System.String)">
+            <summary>
+            Packs the field into a byte[]
+            </summary>
+            <param name="fieldNumber">
+            number of the field 
+            </param>
+            <param name="value">
+            Value of the field to pack 
+            </param>
+            <returns>
+            field data packed into a byte[] 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IFieldDescriptor.Unpack(System.Int32,System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Unpack the field from the message
+            </summary>
+            <param name="fieldNumber">
+            field number 
+            </param>
+            <param name="data">
+            message data to unpack from 
+            </param>
+            <param name="offset">
+            offset in the message to start 
+            </param>
+            <param name="newOffset">
+            offset at the end of the field for the next field 
+            </param>
+            <returns>
+            valud of the field 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.IMessage">
+            <summary>
+              Interface representing a message that can be send over the network
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IMessage.ToMsg(System.String)">
+            <summary>
+              Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>byte[] representing the message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IMessage.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+              Unpacks the message from a byte array
+            </summary>
+            <param name = "msg">message data to unpack</param>
+            <param name = "startingOffset">the offset in the array to start</param>
+            <returns>the offset in the array representing the start of the next message</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583">
+            <summary>
+            Generic Implmentable ISO 8583 Revision 87 class
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.DefaultTemplate">
+            <summary>
+              The default template.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.#cctor">
+            <summary>
+              Initializes static members of the <see cref="T:SwitchLink.Protocols.ISO8583.Iso8583" /> class.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.#ctor">
+            <summary>
+              Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.Iso8583" /> class. Creates a new instance of the Iso8583 class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.#ctor(SwitchLink.Protocols.ISO8583.Template)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.Iso8583"/> class. Creates a new instance of the Iso8583 class using a specific message type formatter
+            </summary>
+            <param name="template">
+            The template overrides to use for the ISO message 
+            </param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.AdditionalAmounts">
+            <summary>
+              Gets a list of additional amounts for this ISO message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.MessageType">
+            <summary>
+              Gets or sets the message type
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.PackedLength">
+            <summary>
+              Gets the packed length of the message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.TransactionAmount">
+            <summary>
+              Gets or sets the transaction amount for the message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.TransmissionDateTime">
+            <summary>
+              Gets the transmission date time
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583.LocalTransactionDateTime">
+            <summary>
+              Gets the transmission date time
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.ToMsg(System.String)">
+            <summary>
+            Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>
+            byte[] representing the message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.ToString(System.String)">
+            <summary>
+            Returns the contents of the message as a string
+            </summary>
+            <param name="prefix">
+            The prefix to apply to each line in the message 
+            </param>
+            <returns>
+            Pretty printed string 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.Unpack(System.Byte[],System.Int32,System.String)">
+            <summary>
+            Unpacks the message from a byte array
+            </summary>
+            <param name="msg">
+            message data to unpack 
+            </param>
+            <param name="startingOffset">
+            the offset in the array to start 
+            </param>
+            <returns>
+            the offset in the array representing the start of the next message 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.GetDefaultIso8583Template">
+            <summary>
+            The get default iso 8583 template.
+            </summary>
+            <returns>
+            A Template
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.CreateField(System.Int32)">
+            <summary>
+            Create a field of the correct type and length
+            </summary>
+            <param name="field">
+            Field number to create 
+            </param>
+            <returns>
+            IField representing the desired field 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583.Bit">
+            <summary>
+            Human readable constants mapping to field numbers
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._002_PAN">
+            <summary>
+              Primary Account Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._003_PROC_CODE">
+            <summary>
+              Processing Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._004_TRAN_AMOUNT">
+            <summary>
+              Transaction Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._005_SETTLE_AMOUNT">
+            <summary>
+              Settlement Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._007_TRAN_DATE_TIME">
+            <summary>
+              Transmission Date and Time
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._009_CONVERSION_RATE_SETTLEMENT">
+            <summary>
+              Conversion Rate Settlement
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._011_SYS_TRACE_AUDIT_NUM">
+            <summary>
+              Systems Trace Audit Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._012_LOCAL_TRAN_TIME">
+            <summary>
+              Field 12 - Time, Local Transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._013_LOCAL_TRAN_DATE">
+            <summary>
+              Field 13 - Date, Local Transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._014_EXPIRATION_DATE">
+            <summary>
+              Field 14 - Date, Expiration
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._015_SELLTLEMENT_DATE">
+            <summary>
+              Field 15 - Date, Settlement
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._016_CONVERSION_DATE">
+            <summary>
+              Field 16 - Date, Conversion
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._018_MERCHANT_TYPE">
+            <summary>
+              Field 18 - Merchant Type
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._022_POS_ENTRY_MODE">
+            <summary>
+              Field 22 - POS Entry Mode
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._023_CARD_SEQUENCE_NUM">
+            <summary>
+              Field 23 – Card Sequence Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._025_POS_CONDITION_CODE">
+            <summary>
+              Field 25 - POS Condition Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._026_POS_PIN_CAPTURE_CODE">
+            <summary>
+              Field 26 - POS PIN Capture Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._027_AUTH_ID_RSP">
+            <summary>
+              Authorisation ID Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._028_TRAN_FEE_AMOUNT">
+            <summary>
+              Transaction fee amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._029_SETTLEMENT_FEE_AMOUNT">
+            <summary>
+              Settlement fee amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._030_TRAN_PROC_FEE_AMOUNT">
+            <summary>
+              Transaction processing fee amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._031_SETTLEMENT_PROC_FEE_AMOUNT">
+            <summary>
+              Settlement processing fee amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._032_ACQUIRING_INST_ID_CODE">
+            <summary>
+              Field 32 - Acquiring Institution ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._033_FORWARDING_INT_ID_CODE">
+            <summary>
+              Field 33 - Forwarding Institution ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._035_TRACK_2_DATA">
+            <summary>
+              Field 35 - Track 2 Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._037_RETRIEVAL_REF_NUM">
+            <summary>
+              Field 37 - Retrieval Reference Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._038_AUTH_ID_RESPONSE">
+            <summary>
+              Field 38 - Authorization ID Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._039_RESPONSE_CODE">
+            <summary>
+              Field 39 - Response Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._040_SERVICE_RESTRICTION_CODE">
+            <summary>
+              Field 40 - Service Restriction Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._041_CARD_ACCEPTOR_TERMINAL_ID">
+            <summary>
+              Field 41 - Card Acceptor Terminal ID
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._042_CARD_ACCEPTOR_ID_CODE">
+            <summary>
+              Field 42 - Card Acceptor ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOCATION">
+            <summary>
+              Field 43 - Card Acceptor Name Location
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._044_ADDITIONAL_RESPONSE_DATA">
+            <summary>
+              Field 44 - Additional Response Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._045_TRACK_1_DATA">
+            <summary>
+              Track 1 Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._048_ADDITIONAL_DATA">
+            <summary>
+              Field 48 - Additional Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._049_TRAN_CURRENCY_CODE">
+            <summary>
+              Field 49 - Currency Code, Transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._050_SETTLEMENT_CURRENCY_CODE">
+            <summary>
+              Field 50 - Currency Code, Settlement
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._052_PIN_DATA">
+            <summary>
+              Field 52 - PIN Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._053_SECURITY_RELATED_CONTROL_INFORMATION">
+            <summary>
+              Security Related Control Information
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._054_ADDITIONAL_AMOUNTS">
+            <summary>
+              Field 54 - Additional Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._056_MESSAGE_REASON_CODE">
+            <summary>
+              Field 56 - Message Reason Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._057_AUTHORISATION_LIFE_CYCLE">
+            <summary>
+              Authorisation Life Cycle
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._058_AUTHORISING_AGENT_INSTITUTION">
+            <summary>
+              Authorising Agent Institution
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._066_SETTLEMENT_CODE">
+            <summary>
+              Settlement Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._067_EXTENDED_PAYMENT_CODE">
+            <summary>
+              Extended Payment Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._070_NETWORK_MANAGEMENT_INFORMATION_CODE">
+            <summary>
+              Network Management Information Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._073_DATE_ACTION">
+            <summary>
+              Date Action
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._074_CREDITS_NUMBER">
+            <summary>
+              Credits, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._075_CREDITS_REVERSAL_NUMBER">
+            <summary>
+              Credits Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._076_DEBITS_NUMBER">
+            <summary>
+              Debits, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._077_DEBITS_REVERSAL_NUMBER">
+            <summary>
+              Debits Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._078_TRANSFER_NUMBER">
+            <summary>
+              Transfers, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._079_TRANSFER_REVERSAL_NUMBER">
+            <summary>
+              Transfers Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._080_INQUIRIES_NUMBER">
+            <summary>
+              Inquiries, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._081_AUTHORISATIONS_NUMBER">
+            <summary>
+              Authorisations, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._082_CREDITS_PROCESSING_FEE_AMOUNT">
+            <summary>
+              Credits, Processing Fee Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._083_CREDITS_TRANSACTION_FEE_AMOUNT">
+            <summary>
+              Credits, Transaction Fee Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._084_DEBITS_PROCESSING_FEE_AMOUNT">
+            <summary>
+              Debits, Processing Fee Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._085_DEBITS_TRANSACTION_FEE_AMOUNT">
+            <summary>
+              Debits, Transaction Fee Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._086_CREDITS_AMOUNT">
+            <summary>
+              Credits, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._087_CREDITS_REVERSAL_AMOUNT">
+            <summary>
+              Credits Reversal, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._088_DEBITS_AMOUNT">
+            <summary>
+              Debits, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._089_DEBITS_REVERSAL_AMOUNT">
+            <summary>
+              Debits Reversal, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS">
+            <summary>
+              Original Data Elements
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._091_FILE_UPDATE_CODE">
+            <summary>
+              File Update Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._095_REPLACEMENT_AMOUNTS">
+            <summary>
+              Replacement Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._097_AMOUNT_NET_SETTLEMENT">
+            <summary>
+              Amount Net Settlement
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._098_PAYEE">
+            <summary>
+              Payee
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._100_RECEIVING_INST_ID_CODE">
+            <summary>
+              Field 100 - Receiving Institution ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._101_FILE_NAME">
+            <summary>
+              Field 101 - File Name
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._102_ACCOUNT_ID_1">
+            <summary>
+              Field 102 - Account Identification 1
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._103_ACCOUNT_ID_2">
+            <summary>
+              Field 103 - Account Identification 2
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._118_PAYMENTS_NUMBER">
+            <summary>
+              Payments, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.Bit._119_PAYMENTS_REVERSAL_NUMBER">
+            <summary>
+              Payments Reversal, Number
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583.MsgType">
+            <summary>
+            Human readable constants mapping to message types
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0000_INVALID_MSG">
+            <summary>
+              Invalid Message Type
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0100_AUTH_REQ">
+            <summary>
+              Auth Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0110_AUTH_REQ_RSP">
+            <summary>
+              Auth Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0120_AUTH_ADV">
+            <summary>
+              Auth Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0130_AUTH_ADV_RSP">
+            <summary>
+              Auth Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0200_TRAN_REQ">
+            <summary>
+              Transaction Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0201_TRAN_REQ_REP">
+            <summary>
+              Transaction Request Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0202_TRAN_CMP">
+            <summary>
+              Transaction Completion
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0203_TRAN_CMP_REP">
+            <summary>
+              Transaction Completion Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0210_TRAN_REQ_RSP">
+            <summary>
+              Transaction Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0212_TRAN_CMP_RSP">
+            <summary>
+              Transaction Completion Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0220_TRAN_ADV">
+            <summary>
+              Transaction Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0221_TRAN_ADV_REP">
+            <summary>
+              Transaction Advice Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0230_TRAN_ADV_RSP">
+            <summary>
+              Transaction Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0300_ACQUIRER_FILE_UPDATE_REQ">
+            <summary>
+              Acquirer file update request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0310_ACQUIRER_FILE_UPDATE_RSP">
+            <summary>
+              Acquirer file update response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0320_ACQUIRER_FILE_UPDATE_ADV">
+            <summary>
+              Acquirer File Update Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0322_ISSUER_FILE_UPDATE_ADV">
+            <summary>
+              Issuer File Update Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0330_ACQUIRER_FILE_UPDATE_ADV_RSP">
+            <summary>
+              Acquirer File Update Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0332_ISSUER_FILE_UPDATE_ADV_RSP">
+            <summary>
+              Issuer File Update Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0400_ACQUIRER_REV_REQ">
+            <summary>
+              Acquirer Reversal Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0410_ACQUIRER_REV_REQ_RSP">
+            <summary>
+              Acquirer Reversal Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0420_ACQUIRER_REV_ADV">
+            <summary>
+              Acquirer Reversal Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0421_ACQUIRER_REV_ADV_REP">
+            <summary>
+              Acquirer Reversal Advice Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0430_ACQUIRER_REV_ADV_RSP">
+            <summary>
+              Acquirer Reversal Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0500_ACQUIRER_RECONCILE_REQ">
+            <summary>
+              Acquirer Recon Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0510_ACQUIRER_RECONCILE_REQ_RSP">
+            <summary>
+              Acquirer Recon Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0520_ACQUIRER_RECONCILE_ADV">
+            <summary>
+              Acquirer Recon Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0521_ACQUIRER_RECONCILE_ADV_REP">
+            <summary>
+              Acquirer Recon Advice Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0530_ACQUIRER_RECONCILE_ADV_RSP">
+            <summary>
+              Acquirer Recon Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0600_ADMIN_REQ">
+            <summary>
+              Administrative Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0601_ADMIN_REQ_REP">
+            <summary>
+              Administrative Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0610_ADMIN_REQ_RSP">
+            <summary>
+              Administrative Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0800_NWRK_MNG_REQ">
+            <summary>
+              Network Management Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0801_NWRK_MNG_REQ_REP">
+            <summary>
+              Network Management Request Repeat
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583.MsgType._0810_NWRK_MNG_REQ_RSP">
+            <summary>
+              Network Management Response
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583.MsgType.GetResponse(System.Int32)">
+            <summary>
+            Gets the response message type for the given message type. E.g. 0220 -&gt; 0230, 0421 -&gt; 0430
+            </summary>
+            <param name="msgType">
+            Request Message Type 
+            </param>
+            <returns>
+            Response Message Type 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583PostBridge">
+            <summary>
+              Postilion ISO 8583 Message
+            </summary>
+            <remarks>
+              This inherits from Iso8583 and adds a number of postilion specific fields.  In particular, field 127
+              the postilion private bitmap field has been added
+            </remarks>
+             /// <example>
+              <code lang="C#">
+                public byte[] GetDataFromMessage()
+                {
+                Iso8583Post msg = new Iso8583Post();
+                msg[Iso8583Post.Bit._002_PAN] = "123456789012345";
+                msg.Private[Field127.Bit._002_SWITCH_KEY] = "SimKey00000001";
+                byte[] data = msg.ToMsg();
+                return data;
+                }
+            
+                public Iso8583Post GetMessageFromData(byte[] data)
+                {
+                Iso8583Post msg = new Iso8583Post();
+                msg.Unpack(data, 0);
+                return msg;
+                }
+              </code>
+              <code lang = "VB">
+                Public Function GetDataFromMessage() As Byte()
+                Dim msg As New Iso8583Post()
+                msg(Iso8583Post.Bit._002_PAN) = "123456789012345"
+                msg.[Private](Field127.Bit._002_SWITCH_KEY) = "SimKey00000001"
+                Dim data As Byte() = msg.ToMsg()
+                Return data
+                End Function
+            
+                Public Function GetMessageFromData(ByVal data As Byte()) As Iso8583Post
+                Dim msg As New Iso8583Post()
+                msg.Unpack(data, 0)
+                Return msg
+                End Function
+              </code>
+            </example>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.DefaultTemplate">
+            <summary>
+              The default template.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.#cctor">
+            <summary>
+              Initializes static members of the <see cref="T:SwitchLink.Protocols.ISO8583.Iso8583" /> class.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.#ctor">
+            <summary>
+              Creates a new Iso8583PostBridge message
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Private">
+            <summary>
+              The postilion private field, field 127
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.CreateField(System.Int32)">
+            <summary>
+              Create a field of the correct type and length
+            </summary>
+            <param name = "field">Field number to create</param>
+            <returns>AField representing the desired field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.ToMsg(System.String)">
+            <summary>
+              Gets the message as a byte array ready to send over the network
+            </summary>
+            <returns>byte[] representing the message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.ToString">
+            <summary>
+              Converts the message to a string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.GetDefaultIso8583PostTemplate">
+            <summary>
+            Get the default Is8583-Post template
+            </summary>
+            <returns>
+            A Template
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Bit">
+            <summary>
+              Human readable constants mapping to field numbers
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Bit._059_ECHO_DATA">
+            <summary>
+              Field 59 - Echo Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Bit._123_POS_DATA_CODE">
+            <summary>
+              POS Data Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Bit._125_NET_MNG_INFO">
+            <summary>
+              POS Data Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583PostBridge.Bit._127_POSTILION_PRIVATE_FIELD">
+            <summary>
+              Postilion private field
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583Rev93">
+            <summary>
+              Generic Implmentable ISO 8583 Revision 93 class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583Rev93.#ctor">
+            <summary>
+              Creates a new instance of the Iso8583 class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Iso8583Rev93.#ctor(SwitchLink.Protocols.ISO8583.Template)">
+            <summary>
+              Create a new instance of the Iso8583Rev93 class with the specified template overrides
+            </summary>
+            <param name = "template">Template override</param>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit">
+            <summary>
+              Human readable constants mapping to field numbers
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._002_PAN">
+            <summary>
+              Primary Account Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._003_PROC_CODE">
+            <summary>
+              Processing Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._004_TRAN_AMOUNT">
+            <summary>
+              Transaction Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._005_SETTLE_AMOUNT">
+            <summary>
+              Settlement Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._007_TRAN_DATE_TIME">
+            <summary>
+              Transmission Date and Time
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._009_CONVERSION_RATE_SETTLEMENT">
+            <summary>
+              Conversion Rate Settlement
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._011_SYS_TRACE_AUDIT_NUM">
+            <summary>
+              Systems Trace Audit Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._012_LOCAL_TRAN_DATETIME">
+            <summary>
+              Field 12 - Time, Local Transaction
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._014_EXPIRY_DATE">
+            <summary>
+              Field 14 - Expiry Date
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._016_CONVERSION_DATE">
+            <summary>
+              Field 16 - Conversion Date
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._022_POS_DATA_CODE">
+            <summary>
+              Field 22 - POS Data Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._023_CARD_SEQ_NR">
+            <summary>
+              Field 23 - Card Sequence Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._024_FUNC_CODE">
+            <summary>
+              Field 24 - Function Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._025_MSG_REASON_CODE">
+            <summary>
+              Field 25 - Message Reason Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._027_APPROVAL_CODE_LEN">
+            <summary>
+              Field 27 - Approval Code Length
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._028_RECON_DATE">
+            <summary>
+              Field 28 - Reconciliation Date
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._029_RECON_INDICATOR">
+            <summary>
+              Field 29 - Reconciliation Indicator
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._030_AMOUNTS_ORIGINAL">
+            <summary>
+              Field 30 - Original Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._032_ACQ_INST_ID_CODE">
+            <summary>
+              Field 32 - Acquiring Institutino ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._035_TRACK_2_DATA">
+            <summary>
+              Field 35 - Track 2 Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._037_RET_REF_NR">
+            <summary>
+              Field 37 - Retrieval Reference Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._038_APPROVAL_CODE">
+            <summary>
+              Field 38 - Approval Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._039_ACTION_CODE">
+            <summary>
+              Field 39 - Action Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._040_SERVICE_CODE">
+            <summary>
+              Field 40 - Service Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._041_TERMINAL_ID">
+            <summary>
+              Field 41 - Terminal ID
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._042_CARD_ACCEPTOR_ID">
+            <summary>
+              Field 42 - Card Acceptor ID
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._044_ADDITIONAL_RESPONSE_DATA">
+            <summary>
+              Field 44 - Additional Response Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._045_TRACK_1_DATA">
+            <summary>
+              Field 45 - Track 1 Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._046_FEES_AMOUNTS">
+            <summary>
+              Field 46 - Fees Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._048_PRIVATE_ADDITIONAL_DATA">
+            <summary>
+              Field 48 - Private Additional Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._049_TRAN_CURRENCY_CODE">
+            <summary>
+              Field 49 - Transaction Currency Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._050_SETTLEMENT_CURRENCY_CODE">
+            <summary>
+              Field 50 - Settlement Currency Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._052_PIN_DATA">
+            <summary>
+              Field 52 - PIN Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._053_SECURITY_INFO">
+            <summary>
+              Field 53 - Security Related Information
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._054_ADDITIONAL_AMOUNTS">
+            <summary>
+              Field 54 - Additional Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._055_ICC_DATA">
+            <summary>
+              Field 55 - ICC Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._056_ORIG_DATA_ELEMENTS">
+            <summary>
+              Field 56 - Original Data Elements
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._057_AUTH_LIFE_CYCLE_CODE">
+            <summary>
+              Field 57 - Auth Life Cycle Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._058_AUTH_AGENT_INST_ID_CODE">
+            <summary>
+              Field 58 - Authorizing Agent Institution ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._059_ECHO_DATA">
+            <summary>
+              Field 59 - Echo Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._062_HOTCARD_CAPACITY">
+            <summary>
+              Field 62 - Hotcard Capacity
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._063_TERMAPP_PRIVATE_DATA">
+            <summary>
+              Field 63 - TermApp.ISO Private Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._064_MAC">
+            <summary>
+              Field 64 - Message Authentication Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._066_ORIGINAL_FEES_AMOUNTS">
+            <summary>
+              Field 66 - Original Fees Amounts
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._067_EXT_PAYMENT_DATA">
+            <summary>
+              Fiel 67 - Extended Payment Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._071_MSG_NR">
+            <summary>
+              Field 71 - Message Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._072_DATA_RECORD">
+            <summary>
+              Field 72 - Data Record
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._074_NR_CREDITS">
+            <summary>
+              Field 74 - Credits, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._075_NR_CREDITS_REVERSAL">
+            <summary>
+              Field 75 - Credits Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._076_NR_DEBITS">
+            <summary>
+              Field 76 - Debits, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._077_NR_DEBITS_REVERSAL">
+            <summary>
+              Field 77 - Debits Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._081_NR_AUTHS">
+            <summary>
+              Field 81 - Authorisations, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._086_AMOUNT_CREDITS">
+            <summary>
+              Field 86 - Credits, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._087_AMOUNT_CREDITS_REVERSAL">
+            <summary>
+              Field 87 - Credits Reversal, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._088_AMOUNT_DEBITS">
+            <summary>
+              Field 88 - Debits, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._089_AMOUNT_DEBITS_REVERSAL">
+            <summary>
+              Field 89 - Debits Reversal, Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._090_NR_AUTHS_REVERSAL">
+            <summary>
+              Field 90 - Authorisations Reversal, Number
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._096_KEY_MANAGEMENT_DATA">
+            <summary>
+              Field 96 - Key Management Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._097_AMOUNT_NET_RECON">
+            <summary>
+              Field 97 - Net Reconciliation Amount
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._098_PAYEE">
+            <summary>
+              Field 98 - Payee
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._100_RECEIVING_INST_ID_CODE">
+            <summary>
+              Field 100 - Receiving Institution ID Code
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._101_FILE_NAME">
+            <summary>
+              Field 101 - File Name
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._102_ACCOUNT_ID_1">
+            <summary>
+              Field 102 - Account ID 1
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._103_ACCOUNT_ID_2">
+            <summary>
+              Field 103 - Account ID 2
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._104_TRAN_DESCRIPTION">
+            <summary>
+              Field 104 - Transaction Description
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._109_FEE_AMOUNTS_CREDITS">
+            <summary>
+              Field 109 - Fee Amounts, Credits
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._110_FEE_AMOUNTS_DEBITS">
+            <summary>
+              Field 110 - Fee Amounts, Debits
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._123_RECEIPT_DATA">
+            <summary>
+              Fied 123 - Receipt Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._124_DISPLAY_DATA">
+            <summary>
+              Field 124 - Display Data
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.Bit._128_MAC">
+            <summary>
+              Field 128 - Message Authentication Code
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType">
+            <summary>
+              Human readable constants mapping to message types
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._0000_INVALID_MSG">
+            <summary>
+              Invalid Message
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1100_AUTH_REQ">
+            <summary>
+              Authorisation Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1110_AUTH_REQ_RSP">
+            <summary>
+              Authorisation Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1120_AUTH_ADV">
+            <summary>
+              Authorisation Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1130_AUTH_ADV_RSP">
+            <summary>
+              Authorisation Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1200_TRAN_REQ">
+            <summary>
+              Transaction Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1210_TRAN_REQ_RSP">
+            <summary>
+              Transaction Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1220_TRAN_ADV">
+            <summary>
+              Transaction Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1230_TRAN_ADV_RSP">
+            <summary>
+              Transaction Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1304_FILE_ACTION_REQ">
+            <summary>
+              File Action Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1314_FILE_ACTION_REQ_RSP">
+            <summary>
+              File Action Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1420_TRAN_REV_ADV">
+            <summary>
+              Reversal Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1430_TRAN_REV_ADV_RSP">
+            <summary>
+              Reversal Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1500_RECON_REQ">
+            <summary>
+              Reconciliation Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1510_RECON_REQ_RSP">
+            <summary>
+              Reconciliation Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1520_RECON_ADV">
+            <summary>
+              Reconciliation Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1530_RECON_ADV_RSP">
+            <summary>
+              Reconciliation Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1604_ADMIN_REQ">
+            <summary>
+              Administration Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1614_ADMIN_REQ_RSP">
+            <summary>
+              Administration Request Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1624_ADMIN_ADV">
+            <summary>
+              Administration Advice
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1634_ADMIN_ADV_RSP">
+            <summary>
+              Administration Advice Response
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1804_NWRK_MNG_REQ">
+            <summary>
+              Network Management Request
+            </summary>
+        </member>
+        <member name="F:SwitchLink.Protocols.ISO8583.Iso8583Rev93.MsgType._1814_NWRK_MNG_REQ_RSP">
+            <summary>
+              Network Management Request Response
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.IsoConvert">
+            <summary>
+              Convert methods for the ISO message builder
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IsoConvert.FromIntToMsgTypeData(System.Int32)">
+            <summary>
+              Convert a message type into ASCII chars representing the string
+            </summary>
+            <param name = "value">Message type to convert</param>
+            <returns>byte[] representing the message type</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IsoConvert.FromMsgTypeDataToInt(System.Byte[])">
+            <summary>
+              Convert a byte[] of the MTID into the int value in base 16
+            </summary>
+            <param name = "data">MTID to convert</param>
+            <returns>int representation of the message type identifier</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IsoConvert.FromIntToMsgType(System.Int32)">
+            <summary>
+              Convert a message type into an ASCII string
+            </summary>
+            <param name = "value">Message type to convert</param>
+            <returns>A string representing the message type</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.IsoConvert.FromMsgTypeToInt(System.String)">
+            <summary>
+              Convert a message type string, e.g. "0200" to the integer value, e.g. 0x200
+            </summary>
+            <param name = "msgType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LambdaAdjuster">
+            <summary>
+            Allows for an arbitrary transformation of a Field value before it is set
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LambdaAdjuster.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Allows an arbitrary transformation of a Field value before it is set
+            </summary>
+            <param name="getLambda">fieldValue => adjustedFieldValue; get adjustment lambda expression</param>
+            <param name="setLambda">fieldValue => adjustedFieldValue; set adjustment lambda expression</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LambdaAdjuster.Get(System.String)">
+            <summary>
+            Transforms a Field value while getting
+            </summary>
+            <param name="value">the actual, stored Field value</param>
+            <returns>a value that shall be returned</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LambdaAdjuster.Set(System.String)">
+            <summary>
+            Transforms a Field value while setting
+            </summary>
+            <param name="value">a value to be adjusted before set</param>
+            <returns>the actual value that will be set</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter">
+            <summary>
+              Fixed field formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.#ctor(System.Int32)">
+            <summary>
+              Fixed length field formatter
+            </summary>
+            <param name = "packedLength">The packed length of the field.  For BCD fields, this is half the size of the field you want</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.LengthOfLengthIndicator">
+            <summary>
+              Get the length of the packed length indicator.  For fixed length fields this is 0
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.MaxLength">
+            <summary>
+              The maximum length of the field displayed as a string for descriptors
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.Description">
+            <summary>
+              Descriptor for the length formatter used in ToString methods
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.GetLengthOfField(System.Byte[],System.Int32)">
+            <summary>
+              Get the length of the field
+            </summary>
+            <param name = "msg">Byte array of message data</param>
+            <param name = "offset">offset to start parsing</param>
+            <returns>The length of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.Pack(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+              Pack the length header into the message
+            </summary>
+            <param name = "msg">Byte array of the message</param>
+            <param name = "length">The length to pack into the message</param>
+            <param name = "offset">Offset to start the packing</param>
+            <returns>offset for the start of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.FixedLengthFormatter.IsValidLength(System.Int32)">
+            <summary>
+              Check the length of the field is valid
+            </summary>
+            <param name = "packedLength">the packed length of the field</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter">
+            <summary>
+              Interface describing a length formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.LengthOfLengthIndicator">
+            <summary>
+              Get the length of the packed length indicator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.MaxLength">
+            <summary>
+              The maximum length of the field displayed as a string for descriptors
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.Description">
+            <summary>
+              Descriptor for the length formatter used in ToString methods
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.GetLengthOfField(System.Byte[],System.Int32)">
+            <summary>
+              Get the length of the field
+            </summary>
+            <param name = "msg">Byte array of message data</param>
+            <param name = "offset">offset to start parsing</param>
+            <returns>The length of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.Pack(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+              Pack the length header into the message
+            </summary>
+            <param name = "msg">Byte array of the message</param>
+            <param name = "length">The length to pack into the message</param>
+            <param name = "offset">Offset to start the packing</param>
+            <returns>offset for the start of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.ILengthFormatter.IsValidLength(System.Int32)">
+            <summary>
+              Check the length of the field is valid
+            </summary>
+            <param name = "packedLength">the packed length of the field</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter">
+            <summary>
+              Variable length formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.#ctor(System.Int32,System.Int32,SwitchLink.Protocols.ISO8583.Formatter.IFormatter)">
+            <summary>
+              Variable length field formatter
+            </summary>
+            <param name = "lengthIndicator">Length of the length indicator</param>
+            <param name = "maxLength">Maximum length of the field</param>
+            <param name = "lengthFormatter">The field formatter used to pack the field</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.#ctor(System.Int32,System.Int32)">
+            <summary>
+              Variable length field formatter that uses ASCII packing for the length indicator
+            </summary>
+            <param name = "lengthIndicator">Length of the length indicator</param>
+            <param name = "maxLength">Maximum length of the field</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.LengthOfLengthIndicator">
+            <summary>
+              Get the length of the packed length indicator
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.MaxLength">
+            <summary>
+              The maximum length of the field displayed as a string for descriptors
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.Description">
+            <summary>
+              Descriptor for the length formatter used in ToString methods
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.GetLengthOfField(System.Byte[],System.Int32)">
+            <summary>
+              Get the length of the field
+            </summary>
+            <param name = "msg">Byte array of message data</param>
+            <param name = "offset">offset to start parsing</param>
+            <returns>The length of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.Pack(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+              Pack the length header into the message
+            </summary>
+            <param name = "msg">Byte array of the message</param>
+            <param name = "length">The length to pack into the message</param>
+            <param name = "offset">Offset to start the packing</param>
+            <returns>offset for the start of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthFormatters.VariableLengthFormatter.IsValidLength(System.Int32)">
+            <summary>
+              Check the length of the field is valid
+            </summary>
+            <param name = "packedLength">the packed length of the field</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthValidators.FixedLengthValidator">
+            <summary>
+              Class to validate a fixed length
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.FixedLengthValidator.#ctor(System.Int32)">
+            <summary>
+              Creates a new instance of the FixedLengthValidator class
+            </summary>
+            <param name = "length">Desired length</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.FixedLengthValidator.IsValid(System.String)">
+            <summary>
+              Validates the length of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthValidators.ILengthValidator">
+            <summary>
+              Interface describing a length validator
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.ILengthValidator.IsValid(System.String)">
+            <summary>
+              Validates the length of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LengthValidators.VariableLengthValidator">
+            <summary>
+              Class to validate a fixed length
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.VariableLengthValidator.#ctor(System.Int32)">
+            <summary>
+              Creates a new instance of the VariableLengthValidator class
+            </summary>
+            <param name = "maximumLength">Maximum length</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.VariableLengthValidator.#ctor(System.Int32,System.Int32)">
+            <summary>
+              Creates a new instance of the VariableLengthValidator class
+            </summary>
+            <param name = "maximumLength">Maximum length</param>
+            <param name = "minimumLength">Minimum length</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LengthValidators.VariableLengthValidator.IsValid(System.String)">
+            <summary>
+              Validates the length of the given string value
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.MinistatementData">
+            <summary>
+              This class parses Ministatement data in field 48 in the response message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.MinistatementData.FromMsg(System.String)">
+            <summary>
+              Parse the data out of the message
+            </summary>
+            <param name = "msg">Data to parse</param>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.MinistatementLine">
+            <summary>
+              Class representing a Ministatement Line
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.NetworkHeaders.INetworkHeader">
+            <summary>
+              Interface exposing functionality of a network header class
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.NetworkHeaders.INetworkHeader.GetMessageLength(System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Get's the message length given the header
+            </summary>
+            <param name="header">byte array of the header</param>
+            <param name="offset">The offset in the array to start parsing</param>
+            <param name="newOffset">The offset in the array after the data has been parsed</param>
+            <returns>Length of the message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.NetworkHeaders.INetworkHeader.Pack(SwitchLink.Protocols.ISO8583.IMessage)">
+            <summary>
+            Packs a message into the network stream and appends the length header
+            </summary>
+            <param name="message">The message to pack</param>
+            <returns>A byte array of the message ready to send</returns>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.NetworkHeaders.INetworkHeader.HeaderLength">
+            <summary>
+            The length of the length header
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.NetworkHeaders.TwoByteHeader">
+            <summary>
+            A class implementing a two byte header
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.NetworkHeaders.TwoByteHeader.GetMessageLength(System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Get's the message length given the header
+            </summary>
+            <param name="header">byte array of the header</param>
+            <param name="offset">The offset in the array to start parsing</param>
+            <param name="newOffset">The offset in the array after the data has been parsed</param>
+            <returns>Length of the message</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.NetworkHeaders.TwoByteHeader.Pack(SwitchLink.Protocols.ISO8583.IMessage)">
+            <summary>
+            Packs a message into the network stream and appends the length header
+            </summary>
+            <param name="message">The message to pack</param>
+            <returns>A byte array of the message ready to send</returns>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.NetworkHeaders.TwoByteHeader.HeaderLength">
+            <summary>
+            The length of the length header
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.PanMaskDecorator">
+            <summary>
+            Decorates an IFieldDescriptor.Display method with a PCI-DSS PAN mask.
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.PanMaskDecorator.#ctor(SwitchLink.Protocols.ISO8583.IFieldDescriptor)">
+            <summary>
+            Decorate the decoratedFieldDescriptor.Display with a PCI-DSS PAN mask.
+            </summary>
+            <param name="decoratedFieldDescriptor">the target IFieldDescriptor to decorate</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.PanMaskDecorator.LengthFormatter">
+            <summary>
+              The length formatter describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Validator">
+            <summary>
+              The validator describing the field
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Formatter">
+            <summary>
+              The field formatter describing the field
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.PanMaskDecorator.GetPackedLength(System.String)">
+            <summary>
+              Get the packed length of the field, including a length header if necessary for the given value
+            </summary>
+            <param name = "value">Value to calculate length for</param>
+            <returns>Packed length of the field, including length header</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Display(System.String,System.Int32,System.String)">
+            <summary>
+              Display the field after applying the PCI-DSS PAN mask, used in traces
+            </summary>
+            <param name = "prefix">Prefix to display before the field</param>
+            <param name = "fieldNumber">Field number</param>
+            <param name = "value">field contents</param>
+            <returns>formatted string representing the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Unpack(System.Int32,System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+              Unpack the field from the message
+            </summary>
+            <param name = "fieldNumber">field number</param>
+            <param name = "data">message data to unpack from</param>
+            <param name = "offset">offset in the message to start</param>
+            <param name = "newOffset">offset at the end of the field for the next field</param>
+            <returns>valud of the field</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Pack(System.Int32,System.String)">
+            <summary>
+              Packs the field into a byte[]
+            </summary>
+            <param name = "fieldNumber">number of the field</param>
+            <param name = "value">Value of the field to pack</param>
+            <returns>field data packed into a byte[]</returns>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.PanMaskDecorator.Adjuster">
+            <summary>
+            delegated Adjuster
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.ProcessingCode">
+            <summary>
+              Deals with the Processing Code (Field 3) in an ISO message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.ProcessingCode.#ctor(System.String)">
+            <summary>
+              Create a new processing code using the given data
+            </summary>
+            <param name = "data">The value to unpack</param>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.ProcessingCode.TranType">
+            <summary>
+              Gets the transaction type
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.ProcessingCode.FromAccountType">
+            <summary>
+              Gets the from account type
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.ProcessingCode.ToAccountType">
+            <summary>
+              Gets the to account type
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Template">
+            <summary>
+            A Template describing a message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Template.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchLink.Protocols.ISO8583.Template"/> class. 
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Template.MsgTypeFormatter">
+            <summary>
+            Gets or sets the message type formatter
+            </summary>
+        </member>
+        <member name="P:SwitchLink.Protocols.ISO8583.Template.BitmapFormatter">
+            <summary>
+            Gets or sets the bitmap formatter
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Template.DescribePacking">
+            <summary>
+            Describe the packing format of the template
+            </summary>
+            <returns>
+            The packing of the template 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.LocalTransactionDateTime">
+            <summary>
+              Class representing field 7 in an ISO 8583 Message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LocalTransactionDateTime.#ctor(SwitchLink.Protocols.ISO8583.AMessage)">
+            <summary>
+              Create a new instance of the TransmissionDateTime class
+            </summary>
+            <param name = "message">Iso Message to link back to</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.LocalTransactionDateTime.SetNow">
+            <summary>
+              Auto generate the transmission date time to be now.
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.TransmissionDateTime">
+            <summary>
+              Class representing field 7 in an ISO 8583 Message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.TransmissionDateTime.#ctor(SwitchLink.Protocols.ISO8583.AMessage)">
+            <summary>
+              Create a new instance of the TransmissionDateTime class
+            </summary>
+            <param name = "message">Iso Message to link back to</param>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.TransmissionDateTime.SetNow">
+            <summary>
+              Auto generate the transmission date time to be now.
+            </summary>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Utils">
+            <summary>
+            Utilities class with helper functions
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.GetLuhn(System.String)">
+            <summary>
+            Returns the luhn digit for a given PAN
+            </summary>
+            <param name="pan">PAN missing the luhn check digit</param>
+            <returns>Luhn check digit</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.IsValidPAN(System.String)">
+            <summary>
+            Checks that the luhn check digit is valid
+            </summary>
+            <param name="pan">PAN to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.MaskPan(System.String)">
+            <summary>
+            PCI DSS PAN mask. For strings longer than 10 chars masks characters [6..Length-4] 
+            by character 'x'; otherwise returns the pan parameter unchanged.
+            </summary>
+            <param name="pan">a PAN string</param>
+            <returns>a masked PAN string</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.ToHex(System.Byte[])">
+            <summary>
+            Convert a byte array to a hex string
+            </summary>
+            <param name="data">
+            The data 
+            </param>
+            <returns>
+            Hex string representing the input data 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.DebugPrint(System.Byte[])">
+            <summary>
+            Debug print a byte array
+            </summary>
+            <param name="data">
+            The data to pring 
+            </param>
+            <returns>
+            Debug output string 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.ToByteArray(System.String)">
+            <summary>
+            Convert a hex string to byte array.
+            </summary>
+            <param name="hex">
+            The string 
+            </param>
+            <returns>
+            Byte array representing the input string 
+            </returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Utils.GetChar(System.Byte)">
+            <summary>
+            Get a printable character for a byte. Used in DebugPrint
+            </summary>
+            <param name="b">
+            The byte 
+            </param>
+            <returns>
+            The character 
+            </returns>
+        </member>
+        <member name="T:SwitchLink.Protocols.ISO8583.Validators">
+            <summary>
+              Class for accessing validators outside of the message
+            </summary>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Validators.IsNumeric(System.String)">
+            <summary>
+              Numeric validator
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+        <member name="M:SwitchLink.Protocols.ISO8583.Validators.IsHex(System.String)">
+            <summary>
+              Hex validator
+            </summary>
+            <param name = "value">Value to validate</param>
+            <returns>true if valid, false otherwise</returns>
+        </member>
+    </members>
+</doc>
